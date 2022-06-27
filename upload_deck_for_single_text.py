@@ -48,7 +48,7 @@ def initialize(line):
 
         result += ' '
 
-    return result.strip()
+    return result.strip().lower()
 
 
 def get_single_quiz_item(prefix_line, target_line, suffix_line):
