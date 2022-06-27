@@ -54,8 +54,8 @@ def initialize(line):
 def get_single_quiz_item(prefix_line, target_line, suffix_line):
     return {
         'prompt':
-        '<pre>' + prefix_line + '\r\n' +
-            initialize(target_line) + '\r\n' + suffix_line + '</pre>',
+        prefix_line + '<br>' +
+            initialize(target_line) + '<br>' + suffix_line,
         'answer':
         target_line
     }
