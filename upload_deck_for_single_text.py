@@ -1,8 +1,11 @@
 #!/usr/bin/python3
 
+import argparse
 import os
 import pprint
 import string
+import json
+import urllib.request
 
 IN_FILE = '/tmp/text.txt'
 
@@ -71,10 +74,47 @@ def get_quiz_items_from_processed_lines(processed_lines):
     return result
 
 
+def ankiconn_make_request(action, **params):
+    return {'action': action, 'params': params, 'version': 6}
+
+
+def ankiconn_invoke(action, **params):
+    requestJson = json.dumps(ankiconn_make_request(action,
+                                                   **params)).encode('utf-8')
+    response = json.load(
+        urllib.request.urlopen(
+            urllib.request.Request('http://localhost:8765', requestJson)))
+    if len(response) != 2:
+        raise Exception('response has an unexpected number of fields')
+    if 'error' not in response:
+        raise Exception('response is missing required error field')
+    if 'result' not in response:
+        raise Exception('response is missing required result field')
+    if response['error'] is not None:
+        raise Exception(response['error'])
+    return response['result']
+
+
+def add_items_to_deck(quiz_items, deckname):
+    for qi in quiz_items:
+        ankiconn_invoke('addNote', note={'deckName': deckname, 'modelName': 'Basic', 'fields': {
+            'Front': qi['prompt'], 'Back': qi['answer']}})
+
+
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("deckname")
+    args = parser.parse_args()
+
     o = get_processed_lines(IN_FILE)
     qo = get_quiz_items_from_processed_lines(o)
     PP.pprint(qo)
+
+    ankiconn_invoke('createDeck', deck=args.deckname)
+    add_items_to_deck(qo, args.deckname)
+
+    names = ankiconn_invoke('deckNames')
+    PP.pprint(names)
 
 
 if __name__ == '__main__':
