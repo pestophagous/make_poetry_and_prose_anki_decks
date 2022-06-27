@@ -2,3 +2,7 @@
 inspiration:
 
 https://www.reddit.com/r/Anki/comments/93p2lz/memorizing_poetry/
+
+depends on:
+
+https://github.com/FooSoft/anki-connect
