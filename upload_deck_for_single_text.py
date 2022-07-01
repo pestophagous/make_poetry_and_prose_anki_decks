@@ -13,7 +13,10 @@ PP = pprint.PrettyPrinter(indent=4)
 
 
 def process_one_line(line):
-    return line.translate(str.maketrans('', '', string.punctuation)).strip()
+    tostrip = string.punctuation
+    tostrip = tostrip.replace('<', '')
+    tostrip = tostrip.replace('>', '')
+    return line.translate(str.maketrans('', '', tostrip)).strip()
 
 
 def get_processed_lines(filename):
@@ -43,6 +46,8 @@ def initialize(line):
     for t in tokens:
         if str(t[0]).isnumeric():
             result += t
+        elif t[0] == '<' and t[-1] == '>':
+            result += '&lt;' + t[1:-1] + '&gt;'
         else:
             result += t[0]
 
