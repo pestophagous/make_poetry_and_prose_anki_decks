@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 
 import argparse
+import json
 import os
 import pprint
 import string
-import json
+import sys
 import urllib.request
 
-IN_FILE = '/tmp/text.txt'
 
 PP = pprint.PrettyPrinter(indent=4)
 
@@ -109,12 +109,18 @@ def add_items_to_deck(quiz_items, deckname):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--shortcircuit', action='store_true',
+                        help="only creates stimuli structures; does not upload to anki")
     parser.add_argument("deckname")
+    parser.add_argument("inputfile")
     args = parser.parse_args()
 
-    o = get_processed_lines(IN_FILE)
+    o = get_processed_lines(args.inputfile)
     qo = get_quiz_items_from_processed_lines(o)
     PP.pprint(qo)
+
+    if args.shortcircuit:
+        sys.exit(0)
 
     ankiconn_invoke('createDeck', deck=args.deckname)
     add_items_to_deck(qo, args.deckname)
