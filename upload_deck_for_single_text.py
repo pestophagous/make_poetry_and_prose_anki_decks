@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import copy
 import json
 import os
 import pprint
@@ -17,6 +18,9 @@ class Phrase:
         self.linenum = num
         self.rawtext = rawtextline
         self.processedtext = Phrase.process_one_line(rawtextline)
+        self.primary_keyword = ''
+        if not self.is_discardable():
+            self.primary_keyword = Phrase.extract_primary_keyword(rawtextline)
 
         self.preceding_phrase = preceder
         self.trailing_phrase = None
@@ -41,6 +45,15 @@ class Phrase:
         tostrip = tostrip.replace('<', '')
         tostrip = tostrip.replace('>', '')
         return line.translate(str.maketrans('', '', tostrip)).strip()
+
+    def extract_primary_keyword(rawline):
+        tokens = rawline.split()
+        result = tokens[0]
+        for t in tokens:
+            if t.startswith('@@') and len(t) > 2:
+                result = Phrase.process_one_line(t[2:])
+                break
+        return result
 
     def initialize(line):
         result = ''
@@ -73,6 +86,9 @@ class Paragraph:
 
     def is_contentless_boundary_marker(self):
         return self.pnum is None
+
+    def is_metadata_paragraph(self):
+        return self.pnum == 0
 
     def set_total_paragraph_count(self, total):
         self.total_paragraphs = total
@@ -158,6 +174,46 @@ def get_quiz_items_from_processed_lines(paragraphs):
     return result
 
 
+def get_paragraph_innards_items(paragraph):
+    result = []
+
+    keywords = []
+    for p in paragraph.phrases:
+        keywords += [p.primary_keyword]
+
+    for i, p in enumerate(paragraph.phrases):
+        keys = copy.deepcopy(keywords)
+        keys[i] = "_____"
+        promptbody = ""
+        for key in keys:
+            promptbody += key + "; "
+
+        result += [{
+            'prompt': paragraph.breadcrumb_text() + '<br>' + promptbody,
+            'answer':
+            p.line_with_full_annotation()
+        }]
+
+    return result
+
+
+def get_paragraph_innard_quiz_items_from_processed_lines(paragraphs):
+    assert len(paragraphs
+               ) >= 3, "need at least 3 paragraphs"
+
+    result = []
+    for paragraph in paragraphs:
+        if paragraph.is_contentless_boundary_marker():
+            continue
+
+        if paragraph.is_metadata_paragraph():
+            continue
+
+        result += get_paragraph_innards_items(paragraph)
+
+    return result
+
+
 def ankiconn_make_request(action, **params):
     return {'action': action, 'params': params, 'version': 6}
 
@@ -195,6 +251,9 @@ def main():
 
     o = get_processed_lines(args.inputfile)
     qo = get_quiz_items_from_processed_lines(o)
+
+    qo += get_paragraph_innard_quiz_items_from_processed_lines(o)
+
     PP.pprint(qo)
 
     if args.shortcircuit:
