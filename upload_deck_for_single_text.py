@@ -13,10 +13,16 @@ PP = pprint.PrettyPrinter(indent=4)
 
 
 class Phrase:
-    def __init__(self, num, rawtextline):
+    def __init__(self, num, rawtextline, preceder):
         self.linenum = num
         self.rawtext = rawtextline
         self.processedtext = Phrase.process_one_line(rawtextline)
+
+        self.preceding_phrase = preceder
+        self.trailing_phrase = None
+
+    def set_trailing_phrase(self, trailer):
+        self.trailing_phrase = trailer
 
     def line_with_full_annotation(self):
         if self.linenum is not None:
@@ -52,45 +58,81 @@ class Phrase:
         return result.strip().lower()
 
 
+class Paragraph:
+    def __init__(self, num):
+        self.pnum = num
+        self.phrases = []
+
+    def add_phrase(self, phrase):
+        self.phrases += [phrase]
+
+    def is_contentless_boundary_marker(self):
+        return self.pnum is None
+
+
 def get_processed_lines(filename):
     """
     get all lines. skip empty lines. strip punctuation.
     number the lines.
     prepend START_OF_TEXT, append END_OF_TEXT.
     """
+    s_o_t = Phrase(None, 'START_OF_TEXT', None)
+
+    last = s_o_t
+    pnum = 0
     result = []
+    start_new_p = True
     i = 1
     with open(filename) as file:
         for line in file:
-            p = Phrase(i, line)
+            p = Phrase(i, line, last)
             if False == p.is_discardable():
-                result += [p]
+                if start_new_p:
+                    start_new_p = False
+                    pnum += 1
+                    result += [Paragraph(pnum)]
+                last.set_trailing_phrase(p)
+                result[-1].add_phrase(p)
+                last = p
                 i += 1
+            else:
+                start_new_p = True
 
-    return [Phrase(None, 'START_OF_TEXT')] + result + [Phrase(None, 'END_OF_TEXT')]
+    e_o_t = Phrase(None, 'END_OF_TEXT', last)
+    last.set_trailing_phrase(e_o_t)
+
+    s_o_t_p = Paragraph(None)
+    e_o_t_p = Paragraph(None)
+    s_o_t_p.add_phrase(s_o_t)
+    e_o_t_p.add_phrase(e_o_t)
+
+    return [s_o_t_p] + result + [e_o_t_p]
 
 
-def get_single_quiz_item(prefix_line, target_line, suffix_line):
+def get_single_quiz_item(target_phrase):
     return {
         'prompt':
-        prefix_line.line_with_full_annotation() + '<br>' +
-        target_line.cryptic_initialized_line() +
-        '<br>' + suffix_line.line_with_full_annotation(),
+        target_phrase.preceding_phrase.line_with_full_annotation() + '<br>' +
+        target_phrase.cryptic_initialized_line() +
+        '<br>' + target_phrase.trailing_phrase.line_with_full_annotation(),
         'answer':
-        target_line.line_with_full_annotation()
+        target_phrase.line_with_full_annotation()
     }
 
 
-def get_quiz_items_from_processed_lines(processed_lines):
-    assert len(processed_lines
-               ) >= 3, "need at least 3 lines; each quiz item uses 3 lines"
+def get_quiz_items_from_processed_lines(paragraphs):
+    assert len(paragraphs
+               ) >= 3, "need at least 3 paragraphs"
 
     result = []
-    for i in range(1, len(processed_lines) - 1):
-        result += [
-            get_single_quiz_item(processed_lines[i - 1], processed_lines[i],
-                                 processed_lines[i + 1])
-        ]
+    for paragraph in paragraphs:
+        if paragraph.is_contentless_boundary_marker():
+            continue
+
+        for p in paragraph.phrases:
+            result += [
+                get_single_quiz_item(p)
+            ]
 
     return result
 
