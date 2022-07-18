@@ -45,9 +45,13 @@ class Phrase:
     def initialize(line):
         result = ''
         tokens = line.split()
-        for t in tokens:
-            if str(t[0]).isnumeric():
+        for i, t in enumerate(tokens):
+            if i == 0 and str(t[0]).isnumeric():
                 result += t
+            elif str(t).isnumeric():
+                result += '#'
+            elif t == '-1:':
+                result += '&lt;metadata&gt;'
             elif t[0] == '<' and t[-1] == '>':
                 result += '&lt;' + t[1:-1] + '&gt;'
             else:
@@ -82,10 +86,10 @@ def get_processed_lines(filename):
     pnum = 0
     result = []
     start_new_p = True
-    i = 1
+    linenum = -1
     with open(filename) as file:
         for line in file:
-            p = Phrase(i, line, last)
+            p = Phrase(linenum, line, last)
             if False == p.is_discardable():
                 if start_new_p:
                     start_new_p = False
@@ -94,8 +98,12 @@ def get_processed_lines(filename):
                 last.set_trailing_phrase(p)
                 result[-1].add_phrase(p)
                 last = p
-                i += 1
+                if linenum > 0:
+                    linenum += 1
             else:
+                if linenum < 0:
+                    # (recall that first paragraph is meta-data, not content)
+                    linenum = 1  # start numbering lines at SECOND paragraph
                 start_new_p = True
 
     e_o_t = Phrase(None, 'END_OF_TEXT', last)
