@@ -2,9 +2,12 @@
 
 import argparse
 import copy
+import itertools
 import json
+import math
 import os
 import pprint
+import random
 import string
 import sys
 import urllib.request
@@ -36,6 +39,9 @@ class Phrase:
 
     def cryptic_initialized_line(self):
         return Phrase.initialize(self.line_with_full_annotation())
+
+    def is_special_descriptor(self):
+        return len(self.rawtext) >= 2 and self.rawtext[:2] == ";;"
 
     def is_discardable(self):
         return len(self.processedtext) < 1
@@ -76,10 +82,11 @@ class Phrase:
 
 
 class Paragraph:
-    def __init__(self, num):
+    def __init__(self, num, hint):
         self.pnum = num
         self.phrases = []
         self.total_paragraphs = -1
+        self.mnemonic = hint
 
     def add_phrase(self, phrase):
         self.phrases += [phrase]
@@ -117,12 +124,14 @@ def get_processed_lines(filename):
                 if start_new_p:
                     start_new_p = False
                     pnum += 1
-                    result += [Paragraph(pnum)]
-                last.set_trailing_phrase(p)
-                result[-1].add_phrase(p)
-                last = p
-                if linenum > 0:
-                    linenum += 1
+                    result += [Paragraph(pnum, p.processedtext)]
+
+                if False == p.is_special_descriptor():
+                    last.set_trailing_phrase(p)
+                    result[-1].add_phrase(p)
+                    last = p
+                    if linenum > 0:
+                        linenum += 1
             else:
                 if linenum < 0:
                     # (recall that first paragraph is meta-data, not content)
@@ -132,8 +141,8 @@ def get_processed_lines(filename):
     e_o_t = Phrase(None, 'END_OF_TEXT', last)
     last.set_trailing_phrase(e_o_t)
 
-    s_o_t_p = Paragraph(None)
-    e_o_t_p = Paragraph(None)
+    s_o_t_p = Paragraph(None, 'S_O_T')
+    e_o_t_p = Paragraph(None, 'E_O_T')
     s_o_t_p.add_phrase(s_o_t)
     e_o_t_p.add_phrase(e_o_t)
 
@@ -214,6 +223,54 @@ def get_paragraph_innard_quiz_items_from_processed_lines(paragraphs):
     return result
 
 
+def get_whole_doc_outline_quiz_items_from_processed_lines(paragraphs):
+    assert len(paragraphs
+               ) >= 3, "need at least 3 paragraphs"
+
+    answerbody = ""
+    keywords = []
+    for paragraph in paragraphs:
+        if paragraph.is_contentless_boundary_marker():
+            continue
+
+        if paragraph.is_metadata_paragraph():
+            continue
+
+        keywords += [paragraph.mnemonic]
+        answerbody += paragraph.mnemonic + ";<br> "
+
+    indices = list(range(0, len(keywords)))
+
+    num_blanks = math.ceil(len(indices)*0.30)
+    combos = list(itertools.combinations(indices, len(indices)-num_blanks))
+
+    r = random.Random()
+    r.seed(3982)  # need a repeatable seed for tests. could make this cli arg.
+    r.shuffle(combos)
+    num_quiz_items = min(len(combos), len(indices) * 2)
+
+    result = []
+    # semi-duplication with get_paragraph_innards_items, candidate for refactor
+    for q in range(num_quiz_items):
+        keys = []
+        for k in range(len(keywords)):
+            keys += ["_____"]
+
+        for idx in combos[q]:
+            keys[idx] = keywords[idx]
+
+        promptbody = ""
+        for key in keys:
+            promptbody += key + ";<br> "
+
+        result += [{
+            'prompt': promptbody,
+            'answer': answerbody
+        }]
+
+    return result
+
+
 def ankiconn_make_request(action, **params):
     return {'action': action, 'params': params, 'version': 6}
 
@@ -253,6 +310,8 @@ def main():
     qo = get_quiz_items_from_processed_lines(o)
 
     qo += get_paragraph_innard_quiz_items_from_processed_lines(o)
+
+    qo += get_whole_doc_outline_quiz_items_from_processed_lines(o)
 
     PP.pprint(qo)
 
