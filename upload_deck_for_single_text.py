@@ -66,12 +66,19 @@ class Paragraph:
     def __init__(self, num):
         self.pnum = num
         self.phrases = []
+        self.total_paragraphs = -1
 
     def add_phrase(self, phrase):
         self.phrases += [phrase]
 
     def is_contentless_boundary_marker(self):
         return self.pnum is None
+
+    def set_total_paragraph_count(self, total):
+        self.total_paragraphs = total
+
+    def breadcrumb_text(self):
+        return '&lt;p' + str(self.pnum) + '/' + str(self.total_paragraphs) + '&gt;'
 
 
 def get_processed_lines(filename):
@@ -83,7 +90,7 @@ def get_processed_lines(filename):
     s_o_t = Phrase(None, 'START_OF_TEXT', None)
 
     last = s_o_t
-    pnum = 0
+    pnum = -1
     result = []
     start_new_p = True
     linenum = -1
@@ -114,13 +121,19 @@ def get_processed_lines(filename):
     s_o_t_p.add_phrase(s_o_t)
     e_o_t_p.add_phrase(e_o_t)
 
-    return [s_o_t_p] + result + [e_o_t_p]
+    result = [s_o_t_p] + result + [e_o_t_p]
+    for rp in result:
+        # the -3 is to subtract p0 metadata, then S_O_T and E_O_T
+        rp.set_total_paragraph_count(len(result)-3)
+
+    return result
 
 
-def get_single_quiz_item(target_phrase):
+def get_single_quiz_item(target_phrase, enclosing_paragraph):
     return {
         'prompt':
         target_phrase.preceding_phrase.line_with_full_annotation() + '<br>' +
+        enclosing_paragraph.breadcrumb_text() +
         target_phrase.cryptic_initialized_line() +
         '<br>' + target_phrase.trailing_phrase.line_with_full_annotation(),
         'answer':
@@ -139,7 +152,7 @@ def get_quiz_items_from_processed_lines(paragraphs):
 
         for p in paragraph.phrases:
             result += [
-                get_single_quiz_item(p)
+                get_single_quiz_item(p, paragraph)
             ]
 
     return result
