@@ -1,0 +1,55 @@
+[   {   'answer': '1: composer Alfonso Esparza Oteo',
+        'prompt': 'START_OF_TEXT<br>1: c a e o<br>2: Estas son las mañanitas'},
+    {   'answer': '2: Estas son las mañanitas',
+        'prompt': '1: composer Alfonso Esparza Oteo<br>2: e s l m<br>3: que '
+                  'cantaba el rey David'},
+    {   'answer': '3: que cantaba el rey David',
+        'prompt': '2: Estas son las mañanitas<br>3: q c e r d<br>4: hoy por '
+                  'ser día de tu santo te las cantamos a ti'},
+    {   'answer': '4: hoy por ser día de tu santo te las cantamos a ti',
+        'prompt': '3: que cantaba el rey David<br>4: h p s d d t s t l c a '
+                  't<br>5: Despierta mi bien despierta'},
+    {   'answer': '5: Despierta mi bien despierta',
+        'prompt': '4: hoy por ser día de tu santo te las cantamos a ti<br>5: d '
+                  'm b d<br>6: mira que ya amaneció'},
+    {   'answer': '6: mira que ya amaneció',
+        'prompt': '5: Despierta mi bien despierta<br>6: m q y a<br>7: ya los '
+                  'pajaritos cantan la luna ya se metió'},
+    {   'answer': '7: ya los pajaritos cantan la luna ya se metió',
+        'prompt': '6: mira que ya amaneció<br>7: y l p c l l y s m<br>8: Qué '
+                  'linda está la mañana'},
+    {   'answer': '8: Qué linda está la mañana',
+        'prompt': '7: ya los pajaritos cantan la luna ya se metió<br>8: q l e '
+                  'l m<br>9: en que vengo a saludarte'},
+    {   'answer': '9: en que vengo a saludarte',
+        'prompt': '8: Qué linda está la mañana<br>9: e q v a s<br>10: venimos '
+                  'todos con gusto'},
+    {   'answer': '10: venimos todos con gusto',
+        'prompt': '9: en que vengo a saludarte<br>10: v t c g<br>11: y placer '
+                  'a felicitarte'},
+    {   'answer': '11: y placer a felicitarte',
+        'prompt': '10: venimos todos con gusto<br>11: y p a f<br>12: El día en '
+                  'que tu naciste'},
+    {   'answer': '12: El día en que tu naciste',
+        'prompt': '11: y placer a felicitarte<br>12: e d e q t n<br>13: '
+                  'nacieron todas las flores'},
+    {   'answer': '13: nacieron todas las flores',
+        'prompt': '12: El día en que tu naciste<br>13: n t l f<br>14: y en la '
+                  'pila del bautismo'},
+    {   'answer': '14: y en la pila del bautismo',
+        'prompt': '13: nacieron todas las flores<br>14: y e l p d b<br>15: '
+                  'cantaron los ruiseñores'},
+    {   'answer': '15: cantaron los ruiseñores',
+        'prompt': '14: y en la pila del bautismo<br>15: c l r<br>16: Ya viene '
+                  'amaneciendo'},
+    {   'answer': '16: Ya viene amaneciendo',
+        'prompt': '15: cantaron los ruiseñores<br>16: y v a<br>17: ya la luz '
+                  'del día nos dio'},
+    {   'answer': '17: ya la luz del día nos dio',
+        'prompt': '16: Ya viene amaneciendo<br>17: y l l d d n d<br>18: '
+                  'Levántate de mañana'},
+    {   'answer': '18: Levántate de mañana',
+        'prompt': '17: ya la luz del día nos dio<br>18: l d m<br>19: mira que '
+                  'ya amaneció'},
+    {   'answer': '19: mira que ya amaneció',
+        'prompt': '18: Levántate de mañana<br>19: m q y a<br>END_OF_TEXT'}]
