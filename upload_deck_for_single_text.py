@@ -12,11 +12,44 @@ import urllib.request
 PP = pprint.PrettyPrinter(indent=4)
 
 
-def process_one_line(line):
-    tostrip = string.punctuation
-    tostrip = tostrip.replace('<', '')
-    tostrip = tostrip.replace('>', '')
-    return line.translate(str.maketrans('', '', tostrip)).strip()
+class Phrase:
+    def __init__(self, num, rawtextline):
+        self.linenum = num
+        self.rawtext = rawtextline
+        self.processedtext = Phrase.process_one_line(rawtextline)
+
+    def line_with_full_annotation(self):
+        if self.linenum is not None:
+            return str(self.linenum) + ": " + self.processedtext
+        else:
+            return self.rawtext
+
+    def cryptic_initialized_line(self):
+        return Phrase.initialize(self.line_with_full_annotation())
+
+    def is_discardable(self):
+        return len(self.processedtext) < 1
+
+    def process_one_line(line):
+        tostrip = string.punctuation
+        tostrip = tostrip.replace('<', '')
+        tostrip = tostrip.replace('>', '')
+        return line.translate(str.maketrans('', '', tostrip)).strip()
+
+    def initialize(line):
+        result = ''
+        tokens = line.split()
+        for t in tokens:
+            if str(t[0]).isnumeric():
+                result += t
+            elif t[0] == '<' and t[-1] == '>':
+                result += '&lt;' + t[1:-1] + '&gt;'
+            else:
+                result += t[0]
+
+            result += ' '
+
+        return result.strip().lower()
 
 
 def get_processed_lines(filename):
@@ -26,43 +59,25 @@ def get_processed_lines(filename):
     prepend START_OF_TEXT, append END_OF_TEXT.
     """
     result = []
+    i = 1
     with open(filename) as file:
         for line in file:
-            p = process_one_line(line)
-            if len(p) > 0:
+            p = Phrase(i, line)
+            if False == p.is_discardable():
                 result += [p]
+                i += 1
 
-    i = 0
-    for line in result:
-        i += 1
-        result[i - 1] = str(i) + ': ' + result[i - 1]
-
-    return ['START_OF_TEXT'] + result + ['END_OF_TEXT']
-
-
-def initialize(line):
-    result = ''
-    tokens = line.split()
-    for t in tokens:
-        if str(t[0]).isnumeric():
-            result += t
-        elif t[0] == '<' and t[-1] == '>':
-            result += '&lt;' + t[1:-1] + '&gt;'
-        else:
-            result += t[0]
-
-        result += ' '
-
-    return result.strip().lower()
+    return [Phrase(None, 'START_OF_TEXT')] + result + [Phrase(None, 'END_OF_TEXT')]
 
 
 def get_single_quiz_item(prefix_line, target_line, suffix_line):
     return {
         'prompt':
-        prefix_line + '<br>' +
-            initialize(target_line) + '<br>' + suffix_line,
+        prefix_line.line_with_full_annotation() + '<br>' +
+        target_line.cryptic_initialized_line() +
+        '<br>' + suffix_line.line_with_full_annotation(),
         'answer':
-        target_line
+        target_line.line_with_full_annotation()
     }
 
 
