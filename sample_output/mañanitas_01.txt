@@ -1,4 +1,40 @@
-[   {   'answer': '-1: composer Alfonso Esparza Oteo',
+[   {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
+                  'rouse2;<br> ',
+        'prompt': 'define;<br> rouse;<br> _____;<br> _____;<br> rouse2;<br> '},
+    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
+                  'rouse2;<br> ',
+        'prompt': 'define;<br> _____;<br> savor;<br> _____;<br> rouse2;<br> '},
+    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
+                  'rouse2;<br> ',
+        'prompt': '_____;<br> rouse;<br> _____;<br> reminisce;<br> '
+                  'rouse2;<br> '},
+    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
+                  'rouse2;<br> ',
+        'prompt': 'define;<br> _____;<br> _____;<br> reminisce;<br> '
+                  'rouse2;<br> '},
+    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
+                  'rouse2;<br> ',
+        'prompt': 'define;<br> _____;<br> savor;<br> reminisce;<br> '
+                  '_____;<br> '},
+    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
+                  'rouse2;<br> ',
+        'prompt': 'define;<br> rouse;<br> savor;<br> _____;<br> _____;<br> '},
+    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
+                  'rouse2;<br> ',
+        'prompt': '_____;<br> _____;<br> savor;<br> reminisce;<br> '
+                  'rouse2;<br> '},
+    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
+                  'rouse2;<br> ',
+        'prompt': '_____;<br> rouse;<br> savor;<br> reminisce;<br> '
+                  '_____;<br> '},
+    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
+                  'rouse2;<br> ',
+        'prompt': '_____;<br> rouse;<br> savor;<br> _____;<br> rouse2;<br> '},
+    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
+                  'rouse2;<br> ',
+        'prompt': 'define;<br> rouse;<br> _____;<br> reminisce;<br> '
+                  '_____;<br> '},
+    {   'answer': '-1: composer Alfonso Esparza Oteo',
         'prompt': 'START_OF_TEXT<br>&lt;p0/5&gt;&lt;metadata&gt; c a e '
                   'o<br>-1: year ceiling 1914'},
     {   'answer': '-1: year ceiling 1914',
@@ -95,40 +131,4 @@
     {   'answer': '17: Levántate de mañana',
         'prompt': '&lt;p5/5&gt;<br>amaneciendo; dio; _____; amaneció; '},
     {   'answer': '18: mira que ya amaneció',
-        'prompt': '&lt;p5/5&gt;<br>amaneciendo; dio; Levántate; _____; '},
-    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
-                  'rouse2;<br> ',
-        'prompt': 'define;<br> rouse;<br> _____;<br> _____;<br> rouse2;<br> '},
-    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
-                  'rouse2;<br> ',
-        'prompt': 'define;<br> _____;<br> savor;<br> _____;<br> rouse2;<br> '},
-    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
-                  'rouse2;<br> ',
-        'prompt': '_____;<br> rouse;<br> _____;<br> reminisce;<br> '
-                  'rouse2;<br> '},
-    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
-                  'rouse2;<br> ',
-        'prompt': 'define;<br> _____;<br> _____;<br> reminisce;<br> '
-                  'rouse2;<br> '},
-    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
-                  'rouse2;<br> ',
-        'prompt': 'define;<br> _____;<br> savor;<br> reminisce;<br> '
-                  '_____;<br> '},
-    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
-                  'rouse2;<br> ',
-        'prompt': 'define;<br> rouse;<br> savor;<br> _____;<br> _____;<br> '},
-    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
-                  'rouse2;<br> ',
-        'prompt': '_____;<br> _____;<br> savor;<br> reminisce;<br> '
-                  'rouse2;<br> '},
-    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
-                  'rouse2;<br> ',
-        'prompt': '_____;<br> rouse;<br> savor;<br> reminisce;<br> '
-                  '_____;<br> '},
-    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
-                  'rouse2;<br> ',
-        'prompt': '_____;<br> rouse;<br> savor;<br> _____;<br> rouse2;<br> '},
-    {   'answer': 'define;<br> rouse;<br> savor;<br> reminisce;<br> '
-                  'rouse2;<br> ',
-        'prompt': 'define;<br> rouse;<br> _____;<br> reminisce;<br> '
-                  '_____;<br> '}]
+        'prompt': '&lt;p5/5&gt;<br>amaneciendo; dio; Levántate; _____; '}]

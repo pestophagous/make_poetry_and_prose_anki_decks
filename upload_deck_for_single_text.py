@@ -311,11 +311,13 @@ def main():
     args = parser.parse_args()
 
     o = get_processed_lines(args.inputfile)
-    qo = get_quiz_items_from_processed_lines(o)
+    # Because AnkiDroid (and/or all Anki clients?) starts day 1 linearly (not
+    # random), we put the outline items in the FRONT of the deck to study them first.
+    qo = get_whole_doc_outline_quiz_items_from_processed_lines(o)
+
+    qo += get_quiz_items_from_processed_lines(o)
 
     qo += get_paragraph_innard_quiz_items_from_processed_lines(o)
-
-    qo += get_whole_doc_outline_quiz_items_from_processed_lines(o)
 
     PP.pprint(qo)
 
