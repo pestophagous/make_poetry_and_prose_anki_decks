@@ -12,7 +12,6 @@ import string
 import sys
 import urllib.request
 
-
 PP = pprint.PrettyPrinter(indent=4)
 
 
@@ -101,7 +100,8 @@ class Paragraph:
         self.total_paragraphs = total
 
     def breadcrumb_text(self):
-        return '&lt;p' + str(self.pnum) + '/' + str(self.total_paragraphs) + '&gt;'
+        return '&lt;p' + str(self.pnum) + '/' + str(
+            self.total_paragraphs) + '&gt;'
 
 
 def get_processed_lines(filename):
@@ -149,7 +149,7 @@ def get_processed_lines(filename):
     result = [s_o_t_p] + result + [e_o_t_p]
     for rp in result:
         # the -3 is to subtract p0 metadata, then S_O_T and E_O_T
-        rp.set_total_paragraph_count(len(result)-3)
+        rp.set_total_paragraph_count(len(result) - 3)
 
     return result
 
@@ -159,16 +159,15 @@ def get_single_quiz_item(target_phrase, enclosing_paragraph):
         'prompt':
         target_phrase.preceding_phrase.line_with_full_annotation() + '<br>' +
         enclosing_paragraph.breadcrumb_text() +
-        target_phrase.cryptic_initialized_line() +
-        '<br>' + target_phrase.trailing_phrase.line_with_full_annotation(),
+        target_phrase.cryptic_initialized_line() + '<br>' +
+        target_phrase.trailing_phrase.line_with_full_annotation(),
         'answer':
         target_phrase.line_with_full_annotation()
     }
 
 
 def get_quiz_items_from_processed_lines(paragraphs):
-    assert len(paragraphs
-               ) >= 3, "need at least 3 paragraphs"
+    assert len(paragraphs) >= 3, "need at least 3 paragraphs"
 
     result = []
     for paragraph in paragraphs:
@@ -176,9 +175,7 @@ def get_quiz_items_from_processed_lines(paragraphs):
             continue
 
         for p in paragraph.phrases:
-            result += [
-                get_single_quiz_item(p, paragraph)
-            ]
+            result += [get_single_quiz_item(p, paragraph)]
 
     return result
 
@@ -198,7 +195,8 @@ def get_paragraph_innards_items(paragraph):
             promptbody += key + "; "
 
         result += [{
-            'prompt': paragraph.breadcrumb_text() + '<br>' + promptbody,
+            'prompt':
+            paragraph.breadcrumb_text() + '<br>' + promptbody,
             'answer':
             p.line_with_full_annotation()
         }]
@@ -207,8 +205,7 @@ def get_paragraph_innards_items(paragraph):
 
 
 def get_paragraph_innard_quiz_items_from_processed_lines(paragraphs):
-    assert len(paragraphs
-               ) >= 3, "need at least 3 paragraphs"
+    assert len(paragraphs) >= 3, "need at least 3 paragraphs"
 
     result = []
     for paragraph in paragraphs:
@@ -224,8 +221,7 @@ def get_paragraph_innard_quiz_items_from_processed_lines(paragraphs):
 
 
 def get_whole_doc_outline_quiz_items_from_processed_lines(paragraphs):
-    assert len(paragraphs
-               ) >= 3, "need at least 3 paragraphs"
+    assert len(paragraphs) >= 3, "need at least 3 paragraphs"
 
     answerbody = ""
     keywords = []
@@ -241,8 +237,8 @@ def get_whole_doc_outline_quiz_items_from_processed_lines(paragraphs):
 
     indices = list(range(0, len(keywords)))
 
-    num_blanks = math.ceil(len(indices)*0.30)
-    combos = list(itertools.combinations(indices, len(indices)-num_blanks))
+    num_blanks = math.ceil(len(indices) * 0.30)
+    combos = list(itertools.combinations(indices, len(indices) - num_blanks))
 
     r = random.Random()
     r.seed(3982)  # need a repeatable seed for tests. could make this cli arg.
@@ -263,10 +259,7 @@ def get_whole_doc_outline_quiz_items_from_processed_lines(paragraphs):
         for key in keys:
             promptbody += key + ";<br> "
 
-        result += [{
-            'prompt': promptbody,
-            'answer': answerbody
-        }]
+        result += [{'prompt': promptbody, 'answer': answerbody}]
 
     return result
 
@@ -294,14 +287,25 @@ def ankiconn_invoke(action, **params):
 
 def add_items_to_deck(quiz_items, deckname):
     for qi in quiz_items:
-        ankiconn_invoke('addNote', note={'deckName': deckname, 'modelName': 'Basic', 'fields': {
-            'Front': qi['prompt'], 'Back': qi['answer']}})
+        ankiconn_invoke(
+            'addNote',
+            note={
+                'deckName': deckname,
+                'modelName': 'Basic',
+                'fields': {
+                    'Front': qi['prompt'],
+                    'Back': qi['answer']
+                }
+            })
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-s', '--shortcircuit', action='store_true',
-                        help="only creates stimuli structures; does not upload to anki")
+    parser.add_argument(
+        '-s',
+        '--shortcircuit',
+        action='store_true',
+        help="only creates stimuli structures; does not upload to anki")
     parser.add_argument("deckname")
     parser.add_argument("inputfile")
     args = parser.parse_args()
