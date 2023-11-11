@@ -170,7 +170,9 @@ def get_quiz_items_from_processed_lines(paragraphs):
     assert len(paragraphs) >= 3, "need at least 3 paragraphs"
 
     result = []
-    for paragraph in paragraphs:
+    # NOTE: because ankidroid (or all clients?) start linear on day 1,
+    #       loop paragraphs in reverse, so end paragraphs get strengthened earlier
+    for paragraph in reversed(paragraphs):
         if paragraph.is_contentless_boundary_marker():
             continue
 

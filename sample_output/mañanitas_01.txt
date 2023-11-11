@@ -34,31 +34,30 @@
                   'rouse2;<br> ',
         'prompt': 'define;<br> rouse;<br> _____;<br> reminisce;<br> '
                   '_____;<br> '},
-    {   'answer': '-1: composer Alfonso Esparza Oteo',
-        'prompt': 'START_OF_TEXT<br>&lt;p0/5&gt;&lt;metadata&gt; c a e '
-                  'o<br>-1: year ceiling 1914'},
-    {   'answer': '-1: year ceiling 1914',
-        'prompt': '-1: composer Alfonso Esparza '
-                  'Oteo<br>&lt;p0/5&gt;&lt;metadata&gt; y c #<br>1: Estas son '
-                  'las mañanitas'},
-    {   'answer': '1: Estas son las mañanitas',
-        'prompt': '-1: year ceiling 1914<br>&lt;p1/5&gt;1: e s l m<br>2: que '
-                  'cantaba el rey David'},
-    {   'answer': '2: que cantaba el rey David',
-        'prompt': '1: Estas son las mañanitas<br>&lt;p1/5&gt;2: q c e r '
-                  'd<br>3: hoy por ser día de tu santo te las cantamos a ti'},
-    {   'answer': '3: hoy por ser día de tu santo te las cantamos a ti',
-        'prompt': '2: que cantaba el rey David<br>&lt;p1/5&gt;3: h p s d d t s '
-                  't l c a t<br>4: Despierta mi bien despierta'},
-    {   'answer': '4: Despierta mi bien despierta',
-        'prompt': '3: hoy por ser día de tu santo te las cantamos a '
-                  'ti<br>&lt;p2/5&gt;4: d m b d<br>5: mira que ya amaneció'},
-    {   'answer': '5: mira que ya amaneció',
-        'prompt': '4: Despierta mi bien despierta<br>&lt;p2/5&gt;5: m q y '
-                  'a<br>6: ya los pajaritos cantan la luna ya se metió'},
-    {   'answer': '6: ya los pajaritos cantan la luna ya se metió',
-        'prompt': '5: mira que ya amaneció<br>&lt;p2/5&gt;6: y l p c l l y s '
-                  'm<br>7: Qué linda está la mañana'},
+    {   'answer': '15: Ya viene amaneciendo',
+        'prompt': '14: cantaron los ruiseñores<br>&lt;p5/5&gt;15: y v a<br>16: '
+                  'ya la luz del día nos dio'},
+    {   'answer': '16: ya la luz del día nos dio',
+        'prompt': '15: Ya viene amaneciendo<br>&lt;p5/5&gt;16: y l l d d n '
+                  'd<br>17: Levántate de mañana'},
+    {   'answer': '17: Levántate de mañana',
+        'prompt': '16: ya la luz del día nos dio<br>&lt;p5/5&gt;17: l d '
+                  'm<br>18: mira que ya amaneció'},
+    {   'answer': '18: mira que ya amaneció',
+        'prompt': '17: Levántate de mañana<br>&lt;p5/5&gt;18: m q y '
+                  'a<br>END_OF_TEXT'},
+    {   'answer': '11: El día en que tu naciste',
+        'prompt': '10: y placer a felicitarte<br>&lt;p4/5&gt;11: e d e q t '
+                  'n<br>12: nacieron todas las flores'},
+    {   'answer': '12: nacieron todas las flores',
+        'prompt': '11: El día en que tu naciste<br>&lt;p4/5&gt;12: n t l '
+                  'f<br>13: y en la pila del bautismo'},
+    {   'answer': '13: y en la pila del bautismo',
+        'prompt': '12: nacieron todas las flores<br>&lt;p4/5&gt;13: y e l p d '
+                  'b<br>14: cantaron los ruiseñores'},
+    {   'answer': '14: cantaron los ruiseñores',
+        'prompt': '13: y en la pila del bautismo<br>&lt;p4/5&gt;14: c l '
+                  'r<br>15: Ya viene amaneciendo'},
     {   'answer': '7: Qué linda está la mañana',
         'prompt': '6: ya los pajaritos cantan la luna ya se '
                   'metió<br>&lt;p3/5&gt;7: q l e l m<br>8: en que vengo a '
@@ -72,30 +71,31 @@
     {   'answer': '10: y placer a felicitarte',
         'prompt': '9: venimos todos con gusto<br>&lt;p3/5&gt;10: y p a '
                   'f<br>11: El día en que tu naciste'},
-    {   'answer': '11: El día en que tu naciste',
-        'prompt': '10: y placer a felicitarte<br>&lt;p4/5&gt;11: e d e q t '
-                  'n<br>12: nacieron todas las flores'},
-    {   'answer': '12: nacieron todas las flores',
-        'prompt': '11: El día en que tu naciste<br>&lt;p4/5&gt;12: n t l '
-                  'f<br>13: y en la pila del bautismo'},
-    {   'answer': '13: y en la pila del bautismo',
-        'prompt': '12: nacieron todas las flores<br>&lt;p4/5&gt;13: y e l p d '
-                  'b<br>14: cantaron los ruiseñores'},
-    {   'answer': '14: cantaron los ruiseñores',
-        'prompt': '13: y en la pila del bautismo<br>&lt;p4/5&gt;14: c l '
-                  'r<br>15: Ya viene amaneciendo'},
-    {   'answer': '15: Ya viene amaneciendo',
-        'prompt': '14: cantaron los ruiseñores<br>&lt;p5/5&gt;15: y v a<br>16: '
-                  'ya la luz del día nos dio'},
-    {   'answer': '16: ya la luz del día nos dio',
-        'prompt': '15: Ya viene amaneciendo<br>&lt;p5/5&gt;16: y l l d d n '
-                  'd<br>17: Levántate de mañana'},
-    {   'answer': '17: Levántate de mañana',
-        'prompt': '16: ya la luz del día nos dio<br>&lt;p5/5&gt;17: l d '
-                  'm<br>18: mira que ya amaneció'},
-    {   'answer': '18: mira que ya amaneció',
-        'prompt': '17: Levántate de mañana<br>&lt;p5/5&gt;18: m q y '
-                  'a<br>END_OF_TEXT'},
+    {   'answer': '4: Despierta mi bien despierta',
+        'prompt': '3: hoy por ser día de tu santo te las cantamos a '
+                  'ti<br>&lt;p2/5&gt;4: d m b d<br>5: mira que ya amaneció'},
+    {   'answer': '5: mira que ya amaneció',
+        'prompt': '4: Despierta mi bien despierta<br>&lt;p2/5&gt;5: m q y '
+                  'a<br>6: ya los pajaritos cantan la luna ya se metió'},
+    {   'answer': '6: ya los pajaritos cantan la luna ya se metió',
+        'prompt': '5: mira que ya amaneció<br>&lt;p2/5&gt;6: y l p c l l y s '
+                  'm<br>7: Qué linda está la mañana'},
+    {   'answer': '1: Estas son las mañanitas',
+        'prompt': '-1: year ceiling 1914<br>&lt;p1/5&gt;1: e s l m<br>2: que '
+                  'cantaba el rey David'},
+    {   'answer': '2: que cantaba el rey David',
+        'prompt': '1: Estas son las mañanitas<br>&lt;p1/5&gt;2: q c e r '
+                  'd<br>3: hoy por ser día de tu santo te las cantamos a ti'},
+    {   'answer': '3: hoy por ser día de tu santo te las cantamos a ti',
+        'prompt': '2: que cantaba el rey David<br>&lt;p1/5&gt;3: h p s d d t s '
+                  't l c a t<br>4: Despierta mi bien despierta'},
+    {   'answer': '-1: composer Alfonso Esparza Oteo',
+        'prompt': 'START_OF_TEXT<br>&lt;p0/5&gt;&lt;metadata&gt; c a e '
+                  'o<br>-1: year ceiling 1914'},
+    {   'answer': '-1: year ceiling 1914',
+        'prompt': '-1: composer Alfonso Esparza '
+                  'Oteo<br>&lt;p0/5&gt;&lt;metadata&gt; y c #<br>1: Estas son '
+                  'las mañanitas'},
     {   'answer': '1: Estas son las mañanitas',
         'prompt': '&lt;p1/5&gt;<br>_____; David; santo; '},
     {   'answer': '2: que cantaba el rey David',
